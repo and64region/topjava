@@ -19,4 +19,18 @@ public class MealTo {
         this.calories = calories;
         this.excess = excess;
     }
+
+//    public Boolean getExcess() {
+//        return excess.get();
+//    }
+
+    @Override
+    public String toString() {
+        return "MealTo{" +
+                "dateTime=" + dateTime +
+                ", description='" + description + '\'' +
+                ", calories=" + calories +
+                ", excess=" + excess +
+                '}';
+    }
 }
