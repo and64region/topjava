@@ -20,7 +20,23 @@ public class MealTo {
         this.excess = excess;
     }
 
-//    public Boolean getExcess() {
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public int getCalories() {
+        return calories;
+    }
+
+    public boolean isExcess() {
+        return excess;
+    }
+
+    //    public Boolean getExcess() {
 //        return excess.get();
 //    }
 

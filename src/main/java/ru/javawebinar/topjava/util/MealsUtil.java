@@ -19,6 +19,10 @@ import static java.util.stream.Collectors.toList;
 public class MealsUtil {
     private static final int DEFAULT_CALORIES_PER_DAY = 2000;
 
+    public static int getDefaultCaloriesPerDay() {
+        return DEFAULT_CALORIES_PER_DAY;
+    }
+
     public static void main(String[] args) throws ExecutionException, InterruptedException {
         List<Meal> meals = Arrays.asList(
                 new Meal(LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "Завтрак", 500),
