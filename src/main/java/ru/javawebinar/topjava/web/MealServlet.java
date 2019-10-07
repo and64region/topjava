@@ -25,7 +25,7 @@ public class MealServlet extends HttpServlet {
     private static final Logger log = getLogger(MealServlet.class);
 
     private static String INSERT_OR_EDIT = "/mealEdit.jsp";
-    private static String LIST_USER = "/meals.jsp";
+    private static String LIST_USER = "meals.jsp";
 
     private Dao dao = new DaoImpl();
     private List<MealTo> mealListWithExcees;
@@ -40,7 +40,6 @@ public class MealServlet extends HttpServlet {
         String action = request.getParameter("action");
 
 
-
         if (action.equalsIgnoreCase("delete")) {
             int userId = Integer.parseInt(request.getParameter("userId"));
             dao.deleteMeal(userId);
@@ -51,7 +50,7 @@ public class MealServlet extends HttpServlet {
             int userId = Integer.parseInt(request.getParameter("userId"));
             Meal meal = dao.getMealById(userId);
             request.setAttribute("meal", meal);
-        } else if (action.equalsIgnoreCase("mealsList")) {
+        } else if (action.equalsIgnoreCase("mealServlet")) {
             forward = LIST_USER;
             request.setAttribute("mealsListWithExcees", getMealListWithExcees());
         } else {
@@ -66,18 +65,22 @@ public class MealServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        LocalDateTime dateTime = LocalDateTime.parse(request.getParameter("dateTime"), DateTimeFormatter.ofPattern("dd.MM.yyyy hh:mm"));
+
+        String date = request.getParameter("dateTime").replace("T", " ");
+        LocalDateTime dateTime = LocalDateTime.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
         String description = request.getParameter("description");
         int calories = Integer.parseInt(request.getParameter("calories"));
         String userId = request.getParameter("userId");
         if (userId == null || userId.isEmpty()) {
             dao.addMeal(new Meal(dateTime, description, calories));
         } else {
-
             dao.updateMeal(new Meal(Integer.parseInt(userId), dateTime, description, calories));
         }
-        RequestDispatcher view = request.getRequestDispatcher(LIST_USER);
-        request.setAttribute("meals", dao.getAllMeal());
-        view.forward(request, response);
+//        request.setAttribute("meals", getMealListWithExcees());
+//        RequestDispatcher view = request.getRequestDispatcher(LIST_USER);
+
+//        view.forward(request, response);
+
+        response.sendRedirect("mealServlet?action=mealServlet");
     }
 }

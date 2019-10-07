@@ -11,19 +11,19 @@
 </head>
 <body>
 
-<form method="post" action="">
+<form method="post" action="mealServlet?action=mealServlet&userId=<c:out value="${meal.id}"/>">
     <div class="form-group">
         <label for="dateTime">Date</label>
-        <input class="form-control" id="dateTime" type="datetime-local" name="datetime-local"
+        <input class="form-control" name="dateTime" id="dateTime" type="datetime-local"
                                 value="<c:out value="${meal.dateTime}" />">
     </div>
     <div class="form-group">
         <label for="description">Description</label>
-        <input  class="form-control" id="description" value="<c:out value="${meal.description}" />">
+        <input  class="form-control" name="description" id="description" value="<c:out value="${meal.description}" />">
     </div>
     <div class="form-group">
         <label for="calories">Calories</label>
-        <input  class="form-control" id="calories" value="<c:out value="${meal.calories}" />">
+        <input  class="form-control" name="calories" id="calories" value="<c:out value="${meal.calories}" />">
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
