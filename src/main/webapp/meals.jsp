@@ -35,17 +35,15 @@
                     <c:if test="${!mealTo.excess}">
                         <c:set var="col" value="color:#008000"/>
                     </c:if>
-                    <tr>
-                        <td  style="${col}"><fmt:parseDate value="${ mealTo.dateTime }" pattern="yyyy-MM-dd'T'HH:mm"
-                                                          var="parsedDateTime"
-                                                          type="both"/>
+                    <tr style="${col}">
+                        <td><fmt:parseDate value="${ mealTo.dateTime }" pattern="yyyy-MM-dd'T'HH:mm"
+                                           var="parsedDateTime"
+                                           type="both"/>
                             <fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${ parsedDateTime }"/></td>
-                        <td style="${col}"><c:out value="${mealTo.description}"/></td>
-                        <td style="${col}"><c:out value="${mealTo.calories}"/></td>
-                        <td style="${col}"><a href="mealServlet?action=edit&userId=<c:out value="${mealTo.id}"/>">Редактировать</a>
-                        </td>
-                        <td style="${col}"><a href="mealServlet?action=delete&userId=<c:out value="${mealTo.id}"/>">Удалить</a>
-                        </td>
+                        <td><c:out value="${mealTo.description}"/></td>
+                        <td><c:out value="${mealTo.calories}"/></td>
+                        <td><a href="mealServlet?action=edit&userId=<c:out value="${mealTo.id}"/>">Редактировать</a></td>
+                        <td><a href="mealServlet?action=delete&userId=<c:out value="${mealTo.id}"/>">Удалить</a></td>
 
                     </tr>
                 </c:forEach>

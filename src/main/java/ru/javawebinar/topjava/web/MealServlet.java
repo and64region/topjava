@@ -26,6 +26,8 @@ public class MealServlet extends HttpServlet {
 
     private static String INSERT_OR_EDIT = "/mealEdit.jsp";
     private static String LIST_USER = "meals.jsp";
+    private static DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
 
     private Dao dao = new DaoImpl();
 
@@ -66,7 +68,7 @@ public class MealServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         String date = request.getParameter("dateTime").replace("T", " ");
-        LocalDateTime dateTime = LocalDateTime.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+        LocalDateTime dateTime = LocalDateTime.parse(date, dateTimeFormatter);
         String description = request.getParameter("description");
         int calories = Integer.parseInt(request.getParameter("calories"));
         String userId = request.getParameter("userId");
