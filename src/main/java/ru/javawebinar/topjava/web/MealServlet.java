@@ -37,7 +37,7 @@ public class MealServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String forward = "";
         String action = request.getParameter("action");
-
+        request.setCharacterEncoding("UTF-8");
 
         if (action.equalsIgnoreCase("delete")) {
             int userId = Integer.parseInt(request.getParameter("userId"));
@@ -64,7 +64,7 @@ public class MealServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        request.setCharacterEncoding("UTF-8");
         String date = request.getParameter("dateTime").replace("T", " ");
         LocalDateTime dateTime = LocalDateTime.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
         String description = request.getParameter("description");
