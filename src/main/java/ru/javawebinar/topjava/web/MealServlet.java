@@ -28,7 +28,6 @@ public class MealServlet extends HttpServlet {
     private static String LIST_USER = "meals.jsp";
 
     private Dao dao = new DaoImpl();
-    private List<MealTo> mealListWithExcees;
 
     private List<MealTo> getMealListWithExcees() {
         return getFiltered(dao.getAllMeal(), LocalTime.MIN, LocalTime.MAX, MealsUtil.getDefaultCaloriesPerDay());
@@ -44,7 +43,7 @@ public class MealServlet extends HttpServlet {
             int userId = Integer.parseInt(request.getParameter("userId"));
             dao.deleteMeal(userId);
             forward = LIST_USER;
-            request.setAttribute("meals", getMealListWithExcees());
+            request.setAttribute("mealsListWithExcees", getMealListWithExcees());
         } else if (action.equalsIgnoreCase("edit")) {
             forward = INSERT_OR_EDIT;
             int userId = Integer.parseInt(request.getParameter("userId"));
@@ -76,10 +75,6 @@ public class MealServlet extends HttpServlet {
         } else {
             dao.updateMeal(new Meal(Integer.parseInt(userId), dateTime, description, calories));
         }
-//        request.setAttribute("meals", getMealListWithExcees());
-//        RequestDispatcher view = request.getRequestDispatcher(LIST_USER);
-
-//        view.forward(request, response);
 
         response.sendRedirect("mealServlet?action=mealServlet");
     }

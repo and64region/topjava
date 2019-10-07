@@ -36,7 +36,7 @@
                 <fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${ parsedDateTime }"/></td>
             <td style="${col}"><c:out value="${mealTo.description}"/></td>
             <td style="${col}"><c:out value="${mealTo.calories}"/></td>
-            <td style="${col}"><a href="mealServlet?action=edit&userId=<c:out value="${mealTo.id}"/>">Обновить</a></td>
+            <td style="${col}"><a href="mealServlet?action=edit&userId=<c:out value="${mealTo.id}"/>">Редактировать</a></td>
             <td style="${col}"><a href="mealServlet?action=delete&userId=<c:out value="${mealTo.id}"/>">Удалить</a></td>
 
         </tr>

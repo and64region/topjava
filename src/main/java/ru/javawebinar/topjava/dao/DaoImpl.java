@@ -27,10 +27,13 @@ public class DaoImpl implements Dao{
     }
 
     public void deleteMeal(int id) {
-        meals.forEach(meal -> {
+        Meal removeMeal = null;
+        for(Meal meal : meals){
             if (meal.getId() == id)
-                meals.remove(meal);
-        });
+                removeMeal = meal;
+        }
+
+        meals.remove(removeMeal);
     }
 
     public void updateMeal(Meal meal) {
