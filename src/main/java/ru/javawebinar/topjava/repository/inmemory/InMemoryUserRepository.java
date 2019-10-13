@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.AbstractNamedEntity;
-import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
 
@@ -16,43 +16,51 @@ import java.util.stream.Collectors;
 @Repository
 public class InMemoryUserRepository implements UserRepository {
     private static final Logger log = LoggerFactory.getLogger(InMemoryUserRepository.class);
-    private Map<Integer, User> userRepo = new ConcurrentHashMap<>();
+    private Map<Integer, User> usersMap = new ConcurrentHashMap<>();
     private AtomicInteger counter = new AtomicInteger(0);
+
+    {
+        save(new User(1, "User", "user@gmail.com", "user", Role.ROLE_USER));
+        save(new User(2, "Admin", "admin@gmail.com", "admin", Role.ROLE_ADMIN));
+    }
 
 
     @Override
     public boolean delete(int id) {
         log.info("delete {}", id);
-        return userRepo.remove(id) != null;
+        return usersMap.remove(id) != null;
     }
+
 
     @Override
     public User save(User user) {
         log.info("save {}", user);
         if( user.isNew()){
             user.setId(counter.incrementAndGet());
-            userRepo.put(user.getId(), user);
-            return user;
         }
-        return userRepo.computeIfPresent(user.getId(), (id, oldUser) -> user);
+        return usersMap.put(user.getId(), user);
     }
 
     @Override
     public User get(int id) {
         log.info("get {}", id);
-        return userRepo.get(id);
+        return usersMap.get(id);
     }
 
     @Override
     public List<User> getAll() {
         log.info("getAll");
-        return userRepo.values().stream().sorted(Comparator.comparing(AbstractNamedEntity::getName)).collect(Collectors.toList());
+        return usersMap.values().stream().sorted(Comparator.comparing(AbstractNamedEntity::getName)).collect(Collectors.toList());
     }
 
     @Override
     public User getByEmail(String email) {
         log.info("getByEmail {}", email);
-        Optional<User> optionalUser = userRepo.values().stream().filter(user -> user.getEmail().equals(email)).findFirst();
-        return optionalUser.orElse(null);
+        return usersMap.values()
+                .stream()
+                .filter(user -> user.getEmail().equals(email))
+                .findFirst()
+                .orElse(null);
+
     }
 }
