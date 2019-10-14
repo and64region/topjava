@@ -8,23 +8,23 @@ import ru.javawebinar.topjava.util.exception.NotFoundException;
 import ru.javawebinar.topjava.web.SecurityUtil;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Collection;
 import java.util.List;
 
 import static ru.javawebinar.topjava.util.MealsUtil.getFilteredTos;
 import static ru.javawebinar.topjava.util.MealsUtil.getTos;
-import static ru.javawebinar.topjava.util.ValidationUtil.assureIdConsistent;
 
 @Controller
 public class MealRestController {
     private final MealService service;
 
-    MealRestController(MealService service){
+    MealRestController(MealService service) {
         this.service = service;
     }
 
-    public Meal create(Meal meal) throws NotFoundException  {
+    public Meal create(Meal meal) throws NotFoundException {
         if (mealUserIdEqualsCurrentUserId(meal))
             throw new NotFoundException("Еда не принадлежит пользователю");
 
@@ -32,16 +32,14 @@ public class MealRestController {
 
     }
 
-    public void update(Meal meal, int userId){
+    public void update(Meal meal, int userId) {
         if (mealUserIdEqualsCurrentUserId(meal))
             throw new NotFoundException("Еда не принадлежит пользователю");
-//          Под ВОПРОСОМ
-//        assureIdConsistent(meal, userId);
 
         service.update(meal, SecurityUtil.authUserId());
     }
 
-    public Meal get(int id) throws  NotFoundException{
+    public Meal get(int id) throws NotFoundException {
         Meal meal = service.get(id, SecurityUtil.authUserId());
 
         if (mealUserIdEqualsCurrentUserId(meal))
@@ -59,20 +57,20 @@ public class MealRestController {
         service.delete(id, SecurityUtil.authUserId());
     }
 
-    public List<MealTo> getDateTime(LocalTime startTime, LocalTime endTime){
-        return getFilteredTos(service.getAll(SecurityUtil.authUserId()),
-                SecurityUtil.authUserCaloriesPerDay(),
-                startTime,
-                endTime);
+    public List<MealTo> getDateTime(LocalDate startDate, LocalTime startTime, LocalDate endDate, LocalTime endTime) {
+
+        Collection<Meal> mealCollection = service.getBetweenDateTime(LocalDateTime.of(startDate, LocalTime.MIN), LocalDateTime.of(endDate, LocalTime.MAX), SecurityUtil.authUserId());
+
+        return getFilteredTos(mealCollection, SecurityUtil.authUserCaloriesPerDay(),startTime, endTime);
 
 
     }
 
     public List<MealTo> getAll() {
-        return getTos(service.getAll(SecurityUtil.authUserId()),SecurityUtil.authUserCaloriesPerDay());
+        return getTos(service.getAll(SecurityUtil.authUserId()), SecurityUtil.authUserCaloriesPerDay());
     }
 
-    private boolean mealUserIdEqualsCurrentUserId(Meal meal){
+    private boolean mealUserIdEqualsCurrentUserId(Meal meal) {
         return meal.getUserId() != SecurityUtil.authUserId();
     }
 

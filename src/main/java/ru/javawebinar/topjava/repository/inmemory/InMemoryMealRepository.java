@@ -8,6 +8,7 @@ import ru.javawebinar.topjava.util.MealsUtil;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -36,7 +37,7 @@ public class InMemoryMealRepository implements MealRepository {
             mealMap.put(meal.getId(), meal);
             return meal;
         }
-         return mealMap.computeIfPresent(meal.getId(), (id, oldMeal) -> meal);
+        return mealMap.computeIfPresent(meal.getId(), (id, oldMeal) -> meal);
     }
 
     @Override
@@ -56,7 +57,7 @@ public class InMemoryMealRepository implements MealRepository {
     @Override
     public Collection<Meal> getAll(int userId) {
         Map<Integer, Meal> mealMap = userAndMeals.get(userId);
-        return mealMap.values()
+        return mealMap == null ? Collections.emptyList() : mealMap.values()
                 .stream()
                 .sorted(Comparator.comparing(Meal::getDate).reversed())
                 .collect(Collectors.toList());
