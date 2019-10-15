@@ -8,7 +8,6 @@ import ru.javawebinar.topjava.util.exception.NotFoundException;
 import ru.javawebinar.topjava.web.SecurityUtil;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Collection;
 import java.util.List;
@@ -32,14 +31,16 @@ public class MealRestController {
 
     }
 
-    public void update(Meal meal, int userId) {
+    public void update(Meal meal, int userId){
         if (mealUserIdEqualsCurrentUserId(meal))
             throw new NotFoundException("Еда не принадлежит пользователю");
+//          Под ВОПРОСОМ
+//        assureIdConsistent(meal, userId);
 
         service.update(meal, SecurityUtil.authUserId());
     }
 
-    public Meal get(int id) throws NotFoundException {
+    public Meal get(int id) throws  NotFoundException{
         Meal meal = service.get(id, SecurityUtil.authUserId());
 
         if (mealUserIdEqualsCurrentUserId(meal))
