@@ -30,6 +30,10 @@ public class MealRestController {
 
     public Meal create(Meal meal) throws NotFoundException {
         log.info("create {}", meal);
+
+        if (meal.getUserId() == null)
+            meal = new Meal(meal.getId(), SecurityUtil.authUserId(), meal.getDateTime(), meal.getDescription(),meal.getCalories());
+
         if (mealUserIdEqualsCurrentUserId(meal))
             throw new NotFoundException("Еда не принадлежит пользователю");
 
@@ -39,6 +43,8 @@ public class MealRestController {
 
     public void update(Meal meal){
         log.info("update {}", meal);
+        if (meal.getUserId() == null)
+            meal = new Meal(meal.getId(), SecurityUtil.authUserId(), meal.getDateTime(), meal.getDescription(),meal.getCalories());
 
         if (mealUserIdEqualsCurrentUserId(meal))
             throw new NotFoundException("Еда не принадлежит пользователю");

@@ -23,19 +23,14 @@ import java.util.Objects;
 public class MealServlet extends HttpServlet {
     private static final Logger log = LoggerFactory.getLogger(MealServlet.class);
 
+    private ApplicationContext ctx;
     private MealRestController mealRestController;
 
     @Override
     public void init() throws ServletException {
-        ApplicationContext ctx = new ClassPathXmlApplicationContext("spring/spring-app.xml");
+        ctx = new ClassPathXmlApplicationContext("spring/spring-app.xml");
         this.mealRestController = ctx.getBean(MealRestController.class);
     }
-
-    /*@Override
-    public void init(ServletConfig config) throws ServletException {
-        super.init(config);
-        repository = new InMemoryMealRepository();
-    }*/
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

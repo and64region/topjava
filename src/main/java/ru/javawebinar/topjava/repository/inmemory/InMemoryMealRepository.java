@@ -41,10 +41,9 @@ public class InMemoryMealRepository implements MealRepository {
 
         if (meal.isNew()) {
             meal.setId(counter.incrementAndGet());
-            mealMap.put(meal.getId(), meal);
-            return meal;
         }
-        return mealMap.computeIfPresent(meal.getId(), (id, oldMeal) -> meal);
+        mealMap.put(meal.getId(), meal);
+        return meal;
     }
 
     @Override
@@ -75,5 +74,7 @@ public class InMemoryMealRepository implements MealRepository {
                 .sorted(Comparator.comparing(Meal::getDate).reversed())
                 .collect(Collectors.toList());
     }
+
+
 }
 
