@@ -1,6 +1,6 @@
 package ru.javawebinar.topjava.repository.jdbc;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -13,13 +13,6 @@ import ru.javawebinar.topjava.repository.MealRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 
-/**
- * 3 Реализовать через Spring JDBC Template JdbcMealRepository
- * 3.1. сделать каждый метод за один SQL запрос
- * 3.2. userId в класс Meal вставлять НЕ надо (для UI и REST это лишние данные, userId это id залогиненного пользователя)
- * 3.3. JbdcTemplate работает через сеттеры. Вместе с конструктором по умолчанию их нужно добавить в Meal
- * 3.4. Cписок еды должен быть отсортирован (тогда мы его сможем сравнивать с тестовыми данными). Кроме того это требуется для UI и API: последняя еда наверху.
- */
 
 @Repository
 public class JdbcMealRepository implements MealRepository {
@@ -40,8 +33,6 @@ public class JdbcMealRepository implements MealRepository {
         this.jdbcTemplate = jdbcTemplate;
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
-
-
 
 
     @Override
@@ -72,8 +63,9 @@ public class JdbcMealRepository implements MealRepository {
 
     @Override
     public Meal get(int id, int userId) {
-        return jdbcTemplate.queryForObject("SELECT id, datetime, description, calories FROM meals WHERE id=? AND user_id=?",
+        List<Meal> meals = jdbcTemplate.query("SELECT id, datetime, description, calories FROM meals WHERE id=? AND user_id=?",
                 ROW_MAPPER, id, userId);
+        return DataAccessUtils.singleResult(meals);
     }
 
     @Override
