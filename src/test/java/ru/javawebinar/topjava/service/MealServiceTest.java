@@ -11,6 +11,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -40,13 +41,9 @@ public class MealServiceTest {
                 mealOnDbID_1,
                 mealOnDbID_2,
                 mealOnDbID_3,
+                mealOnDbID_4,
                 mealCreated);
 
-    }
-
-    @Test
-    public void duplicateMeal() throws Exception {
-        mealService.create(mealOnDbID_1, USER_ID);
     }
 
     @Test
@@ -73,7 +70,9 @@ public class MealServiceTest {
 
     @Test
     public void getBetweenDates() {
-        // Реализовать
+        assertMatch(mealService.getBetweenDates(LocalDate.of(2019,10, 20),
+                LocalDate.of(2019,10, 20), USER_ID),
+                mealOnDbID_1,mealOnDbID_2,mealOnDbID_3);
     }
 
     @Test

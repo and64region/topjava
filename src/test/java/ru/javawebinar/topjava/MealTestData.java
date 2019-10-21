@@ -24,13 +24,17 @@ public class MealTestData {
             LocalDateTime.of(2019, 10, 20, 18, 0),
             "dinner", 500);
 
+    public static final Meal mealOnDbID_4 = new Meal(4,
+            LocalDateTime.of(2019, 9, 21,13,0),
+            "lunch", 1000);
+
     public static final Meal forCreateMeal = new Meal(
             LocalDateTime.of(2019, 10, 21, 9, 0),
             "breakfast",
             500);
 
 
-    public static final List<Meal> fakeDB = Arrays.asList(mealOnDbID_1, mealOnDbID_2, mealOnDbID_3);
+    public static final List<Meal> fakeDB = Arrays.asList(mealOnDbID_1, mealOnDbID_2, mealOnDbID_3, mealOnDbID_4);
 
     public static final Meal notExistsMeal = new Meal(98765454,
             LocalDateTime.now(),
