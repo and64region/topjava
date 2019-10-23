@@ -34,7 +34,7 @@ public class MealTestData {
             500);
 
 
-    public static final List<Meal> fakeDB = Arrays.asList(mealOnDbID_1, mealOnDbID_2, mealOnDbID_3, mealOnDbID_4);
+    public static final List<Meal> fakeDB = Arrays.asList( mealOnDbID_3, mealOnDbID_2, mealOnDbID_1, mealOnDbID_4);
 
     public static final Meal notExistsMeal = new Meal(98765454,
             LocalDateTime.now(),

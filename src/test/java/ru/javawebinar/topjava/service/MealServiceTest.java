@@ -41,11 +41,11 @@ public class MealServiceTest {
         Meal mealCreated = mealService.create(newMeal, USER_ID);
         newMeal.setId(mealCreated.getId());
         assertMatch(mealService.getAll(USER_ID),
-                mealOnDbID_1,
-                mealOnDbID_2,
+                mealCreated,
                 mealOnDbID_3,
-                mealOnDbID_4,
-                mealCreated);
+                mealOnDbID_2,
+                mealOnDbID_1,
+                mealOnDbID_4);
 
     }
 
@@ -82,7 +82,7 @@ public class MealServiceTest {
     public void getBetweenDates() {
         assertMatch(mealService.getBetweenDates(LocalDate.of(2019,10, 20),
                 LocalDate.of(2019,10, 20), USER_ID),
-                mealOnDbID_1,mealOnDbID_2,mealOnDbID_3);
+                mealOnDbID_3,mealOnDbID_2,mealOnDbID_1);
     }
 
     @Test
