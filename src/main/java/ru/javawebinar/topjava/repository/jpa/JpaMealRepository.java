@@ -1,6 +1,5 @@
 package ru.javawebinar.topjava.repository.jpa;
 
-import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.javawebinar.topjava.model.Meal;
@@ -22,20 +21,15 @@ public class JpaMealRepository implements MealRepository {
     @Override
     @Transactional
     public Meal save(Meal meal, int userId) {
+        if (!meal.isNew() && get(meal.getId(), userId) == null) {
+            return null;
+        }
+        meal.setUser(em.getReference(User.class, userId));
         if (meal.isNew()) {
-            User ref = em.getReference(User.class, userId);
-            meal.setUser(ref);
             em.persist(meal);
             return meal;
         } else {
-            Meal refMeal = em.getReference(Meal.class, meal);
-            if (refMeal.getUser().getId() == userId) {
-                User refUser = em.getReference(User.class, userId);
-                meal.setUser(refUser);
-                return em.merge(meal);
-            }
-
-            return null;
+            return em.merge(meal);
         }
 
     }
@@ -52,12 +46,6 @@ public class JpaMealRepository implements MealRepository {
 
     @Override
     public Meal get(int id, int userId) {
-        /*User ref = em.getReference(User.class, userId);
-        List<Meal> meals = em.createNamedQuery(Meal.GET, Meal.class)
-                .setParameter("id", id)
-                .setParameter("user", ref)
-                .getResultList();
-        return DataAccessUtils.singleResult(meals);*/
         Meal meal = em.find(Meal.class, id);
         return meal != null && meal.getUser().getId() == userId ? meal : null;
     }
@@ -74,7 +62,7 @@ public class JpaMealRepository implements MealRepository {
     public List<Meal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId) {
         User ref = em.getReference(User.class, userId);
         return em.createNamedQuery(Meal.GET_BETWEEN, Meal.class)
-                .setParameter("user", ref)
+                .setParameter("userId", ref.getId())
                 .setParameter("startDate", startDate)
                 .setParameter("endDate", endDate)
                 .getResultList();
