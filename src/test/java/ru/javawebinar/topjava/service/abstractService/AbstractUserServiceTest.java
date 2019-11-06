@@ -1,10 +1,12 @@
 package ru.javawebinar.topjava.service.abstractService;
 
+import org.hibernate.Hibernate;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.dao.DataAccessException;
+import ru.javawebinar.topjava.MealTestData;
 import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.service.UserService;
@@ -15,6 +17,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import static ru.javawebinar.topjava.MealTestData.*;
 import static ru.javawebinar.topjava.UserTestData.*;
 
 public abstract class AbstractUserServiceTest extends AbstractServiceTest {
@@ -86,5 +89,12 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest {
     public void getAll() throws Exception {
         List<User> all = service.getAll();
         assertMatch(all, ADMIN, USER);
+    }
+
+    @Test
+    public void getWithMeals() throws Exception {
+        User user = service.getUserWithMeals(USER_ID);
+        assertMatch(user, USER);
+        assertMatch(user.getMeals(), MEALS);
     }
 }
