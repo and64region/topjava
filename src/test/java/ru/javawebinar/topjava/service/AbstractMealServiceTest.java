@@ -10,7 +10,9 @@ import java.time.LocalDate;
 import java.time.Month;
 
 import static java.time.LocalDateTime.of;
+import static org.junit.Assume.assumeFalse;
 import static ru.javawebinar.topjava.MealTestData.*;
+import static ru.javawebinar.topjava.Profiles.JDBC;
 import static ru.javawebinar.topjava.UserTestData.ADMIN_ID;
 import static ru.javawebinar.topjava.UserTestData.USER_ID;
 
@@ -99,6 +101,13 @@ public abstract class AbstractMealServiceTest extends AbstractServiceTest {
 
     @Test
     public void createWithException() throws Exception {
+        for (String profile : environment.getActiveProfiles()) {
+            if (profile.equals(JDBC)) {
+                assumeFalse(true);
+                break;
+            }
+        }
+
         validateRootCause(() -> service.create(new Meal(null, of(2015, Month.JUNE, 1, 18, 0), "  ", 300), USER_ID), ConstraintViolationException.class);
         validateRootCause(() -> service.create(new Meal(null, null, "Description", 300), USER_ID), ConstraintViolationException.class);
         validateRootCause(() -> service.create(new Meal(null, of(2015, Month.JUNE, 1, 18, 0), "Description", 9), USER_ID), ConstraintViolationException.class);
