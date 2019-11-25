@@ -10,7 +10,9 @@ import ru.javawebinar.topjava.to.MealTo;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 import static org.springframework.format.annotation.DateTimeFormat.ISO.*;
@@ -63,6 +65,14 @@ public class MealRestController extends AbstractMealController {
                                    @RequestParam @DateTimeFormat(iso = DATE_TIME) LocalDateTime endDateTime) {
         return super.getBetween(startDateTime.toLocalDate(),startDateTime.toLocalTime(),
                 endDateTime.toLocalDate(),endDateTime.toLocalTime());
+    }
+
+    @GetMapping("/between2")
+    public List<MealTo> getBetween2(@RequestParam LocalDate startDate,
+                                    @RequestParam LocalTime startTime,
+                                    @RequestParam LocalDate endDate,
+                                    @RequestParam LocalTime endTime) {
+        return super.getBetween(startDate, startTime, endDate, endTime);
     }
 
 

@@ -7,21 +7,35 @@
 
     <bean class="ru.javawebinar.topjava.web.json.JacksonObjectMapper" id="objectMapper" factory-method="getMapper"/>
 
-    <mvc:annotation-driven>
+    <mvc:annotation-driven conversion-service="conversionService">
         <mvc:message-converters>
             <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
                 <property name="objectMapper" ref="objectMapper"/>
             </bean>
             <bean class="org.springframework.http.converter.StringHttpMessageConverter">
-<!--                <property name="supportedMediaTypes">-->
-<!--                    <list>-->
-<!--                        <value>text/plain;charset=UTF-8</value>-->
-<!--                        <value>text/html;charset=UTF-8</value>-->
-<!--                    </list>-->
-<!--                </property>-->
+                <property name="supportedMediaTypes">
+                    <list>
+                        <value>text/plain;charset=UTF-8</value>
+                        <value>text/html;charset=UTF-8</value>
+                    </list>
+                </property>
             </bean>
         </mvc:message-converters>
     </mvc:annotation-driven>
+
+    <bean id="conversionService"
+          class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+        <property name="formatters">
+            <set>
+                <ref bean="dateFormatter" />
+                <ref bean="timeFormatter" />
+            </set>
+        </property>
+    </bean>
+
+
+    <bean id="dateFormatter" class="ru.javawebinar.topjava.web.json.DateFormatter"/>
+    <bean id="timeFormatter" class="ru.javawebinar.topjava.web.json.TimeFormatter"/>
 
     <context:component-scan base-package="ru.javawebinar.**.web"/>
 
