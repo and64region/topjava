@@ -37,4 +37,12 @@ public class AdminUIController extends AbstractUserController {
             super.create(user);
         }
     }
+
+    @PutMapping
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void updateChecked(@RequestParam Boolean checked, @RequestParam int id) {
+        User user = get(id);
+        user.setEnabled(checked);
+        super.update(user, id);
+    }
 }

@@ -37,6 +37,10 @@
                 <button class="btn btn-primary" onclick="filter()"><spring:message code="meal.filter"/></button>
             </div>
             <hr>
+            <div>
+                <button type="button" class="btn btn-danger" onclick="cancelFilter()">Отменить фильтр</button>
+            </div>
+            <hr>
             <button class="btn btn-primary" onclick="add()">
                 <span class="fa fa-plus"></span>
                 <spring:message code="common.add"/>

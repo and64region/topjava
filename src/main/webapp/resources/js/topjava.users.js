@@ -43,3 +43,23 @@ $(function () {
         }
     );
 });
+
+function updateCheckBox(id){
+    $("#check").change(function () {
+        if (this.checked == true){
+            this.checked = false;
+        } else
+            this.checked = true;
+
+        $.ajax({
+            type: "PUT",
+            url: "ajax/admin/users/",
+            data: this.serialize() + id.serialize()
+        }).done(function () {
+            context.updateTable();
+            successNoty("Updated");
+        });
+    });
+
+
+}

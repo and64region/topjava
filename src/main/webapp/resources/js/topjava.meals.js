@@ -43,3 +43,12 @@ function filter() {
         data: $("#filter").serialize()
     }).done(updateTableByData);
 }
+
+function cancelFilter() {
+    $("#startDate").val('');
+    $("#endDate").val('');
+    $("#startTime").val('');
+    $("#endTime").val('');
+    filter();
+
+}
